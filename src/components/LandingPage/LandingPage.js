@@ -353,13 +353,13 @@ const JoinActionArrow = styled.img`
 `;
 
 const LandingPage = () => {
-    const dxDaoDescription =
-        'The DXdao is a decentralized organization. It develops, governs, and grows DeFi protocols and products. Owned and operated by the community, the DXdao has the potential to significantly scale its membership.';
-    // const dxDaoDescription = dxDaoData.object.pages
-    //     .find((page) => page.object.text === 'Landing Page')
-    //     .object.links.find(
-    //         (section) => section.object.text === 'dxDAO Description'
-    //     ).object.links[0].object.text;
+    // const dxDaoDescription =
+    //     'The DXdao is a decentralized organization. It develops, governs, and grows DeFi protocols and products. Owned and operated by the community, the DXdao has the potential to significantly scale its membership.';
+    const dxDaoDescription = dxDaoData.object.pages
+        .find((page) => page.object.text === 'Landing Page')
+        .object.links.find(
+            (section) => section.object.text === 'dxDAO Description'
+        ).object.links[0].object.text;
 
     const NormalButton = withRouter(
         ({ option, route, history, location, children }) => {
