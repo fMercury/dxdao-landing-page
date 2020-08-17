@@ -1,19 +1,54 @@
-import { MicroOrchestrator } from '@uprtcl/micro-orchestrator';
+import {
+    MicroOrchestrator,
+    i18nextBaseModule,
+} from '@uprtcl/micro-orchestrator';
 
 import {
     EveesModule,
     EveesEthereum,
     OrbitDBConnection,
     EveesOrbitDB,
+    EveesHelpers,
 } from '@uprtcl/evees';
+import { DocumentsModule } from '@uprtcl/documents';
+import { WikisModule } from '@uprtcl/wikis';
 import { IpfsStore } from '@uprtcl/ipfs-provider';
 
 import { EthereumConnection } from '@uprtcl/ethereum-provider';
 
 import { ApolloClientModule } from '@uprtcl/graphql';
 import { DiscoveryModule } from '@uprtcl/multiplatform';
+import { CortexModule, Entity, HasChildren } from '@uprtcl/cortex';
+import { AccessControlModule } from '@uprtcl/access-control';
 
 type version = 1 | 0;
+
+export let dxDaoData = {};
+
+const getTextNodeRec = async (client: any, recognizer: any, uref: string) => {
+    const node = await EveesHelpers.getData(client, recognizer, uref);
+
+    const children = await Promise.all(
+        node.object.links.map((child) =>
+            getTextNodeRec(client, recognizer, child)
+        )
+    );
+    node.object.links = children;
+
+    return node;
+};
+
+const getWikiData = async (client: any, recognizer: any, uref: string) => {
+    const wiki = await EveesHelpers.getData(client, recognizer, uref);
+    const pages = await Promise.all(
+        wiki.object.pages.map((page) =>
+            getTextNodeRec(client, recognizer, page)
+        )
+    );
+
+    wiki.object.pages = pages;
+    return wiki;
+};
 
 export default class UprtclOrchestrator {
     orchestrator: MicroOrchestrator;
@@ -65,6 +100,8 @@ export default class UprtclOrchestrator {
             provider: this.config.eth.host,
         });
 
+        await ethConnection.ready();
+
         const orbitDBConnection = new OrbitDBConnection(ipfsStore, {
             params: this.config.ipfs.jsipfs,
         });
@@ -83,11 +120,18 @@ export default class UprtclOrchestrator {
             this.orchestrator.container
         );
 
+        await ethEvees.ready();
+
         const evees = new EveesModule([ethEvees, odbEvees], odbEvees);
 
         const modules = [
+            new i18nextBaseModule(),
             new ApolloClientModule(),
+            new AccessControlModule(),
+            new CortexModule(),
             new DiscoveryModule([odbEvees.store.casID]),
+            new DocumentsModule(),
+            new WikisModule(),
             evees,
         ];
 
@@ -96,6 +140,21 @@ export default class UprtclOrchestrator {
         } catch (e) {
             console.error(e);
         }
+
+        const client = this.orchestrator.container.get<any>(
+            ApolloClientModule.bindings.Client
+        );
+        const recognizer = this.orchestrator.container.get<any>(
+            CortexModule.bindings.Recognizer
+        );
+
+        dxDaoData = await getWikiData(
+            client,
+            recognizer,
+            'zb2rhdJBj6Bwp4QJvfNidYC3LjPkznnEJNn9JB1w3tKU95xEi'
+        );
+
+        console.log({ dxDaoData });
     }
 
     private static _instance: UprtclOrchestrator;

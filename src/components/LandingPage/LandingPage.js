@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import links from '../../links';
 import MetaTags from 'react-meta-tags';
 
+import { dxDaoData } from './../../UprtclOrchestrator';
+
 //////
 const LandingPageWrapper = styled.div``;
 
@@ -351,6 +353,14 @@ const JoinActionArrow = styled.img`
 `;
 
 const LandingPage = () => {
+    const dxDaoDescription =
+        'The DXdao is a decentralized organization. It develops, governs, and grows DeFi protocols and products. Owned and operated by the community, the DXdao has the potential to significantly scale its membership.';
+    // const dxDaoDescription = dxDaoData.object.pages
+    //     .find((page) => page.object.text === 'Landing Page')
+    //     .object.links.find(
+    //         (section) => section.object.text === 'dxDAO Description'
+    //     ).object.links[0].object.text;
+
     const NormalButton = withRouter(
         ({ option, route, history, location, children }) => {
             return (
@@ -394,13 +404,7 @@ const LandingPage = () => {
                     <HeavyMessage>DXdao </HeavyMessage>is a{' '}
                     <HeavyMessage>sovereign collective</HeavyMessage>
                 </BannerMessage>
-                <Description>
-                    The DXdao is a decentralized organization initialized in May
-                    of 2019 and has over 400 unique stakeholder addresses. It
-                    develops, governs, and grows DeFi protocols and products.
-                    Owned and operated by the community, the DXdao has the
-                    potential to significantly scale its membership.
-                </Description>
+                <Description>{dxDaoDescription}</Description>
                 <JoinActionWrapper>
                     <JoinAction
                         href={links.landing_create_proposal}
