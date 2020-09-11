@@ -209,6 +209,14 @@ const projects = {
             links:
                 '<a href="https://omen.eth.link" target="_blank" rel="noopener noreferrer">Omen Dapp</a>',
         },
+        {
+            name: 'rails',
+            github: 'https://github.com/luzzif/rails',
+            ipfs: '',
+            version: '0.1.0',
+            links:
+                '<a href="https://dxdao-rails.netlify.app" target="_blank" rel="noopener noreferrer">Alpha</a>',
+        },
     ],
     community: [
         {
