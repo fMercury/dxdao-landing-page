@@ -540,6 +540,29 @@ const LandingPage = () => {
                         </ProductPanel>
                     </ProductClickable>
                 </ProductPanelWrapper>
+                <ProductPanelWrapper>
+                    <ProductClickable
+                        href="https://rails.eth.link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <ProductPanel>
+                            <ProductNameWrapper>
+                                <ProductLogo
+                                    src="rails.svg"
+                                    width={48}
+                                    height={48}
+                                />
+                                <ProductName>Rails.eth</ProductName>
+                            </ProductNameWrapper>
+                            <ProductDescription>
+                                Rails is a L2 token transfer app, with a focus
+                                on user experience and gasless operations.
+                                Powered by Loopring's zkRollup technology.
+                            </ProductDescription>
+                        </ProductPanel>
+                    </ProductClickable>
+                </ProductPanelWrapper>
             </ProductSection>
             <AboutUsSection>
                 <TagLine>About us</TagLine>

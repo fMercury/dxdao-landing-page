@@ -212,10 +212,11 @@ const projects = {
         {
             name: 'rails',
             github: 'https://github.com/luzzif/rails',
-            ipfs: '',
-            version: '0.1.0',
+            ipfs:
+                'https://gateway.ipfs.io/ipfs/QmcDqAS2HTRamb5LjHJEFMMpTtCA3gxsAds6vKjfaWoiXa',
+            version: '1.0.2',
             links:
-                '<a href="https://dxdao-rails.netlify.app" target="_blank" rel="noopener noreferrer">Alpha</a>',
+                '<a href="https://rails.eth.link" target="_blank" rel="noopener noreferrer">Rails Dapp</a>',
         },
     ],
     community: [
